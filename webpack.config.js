@@ -55,7 +55,9 @@ module.exports = {
             '~': path.resolve(__dirname, 'node_modules')
         }
     },
-    //optimization: optimization(),
+    optimization: {
+        runtimeChunk: 'single'
+    },//optimization(),
     devServer: {
         //contentBase: './dist',
         port: 4200,
