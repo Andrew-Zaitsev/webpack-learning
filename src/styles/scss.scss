@@ -1,13 +1,13 @@
-@border: 2px solid #ccc;
+$border: 2px solid #ccc;
 
-.box {
+.card {
     padding: 1rem;
     border-radius: 5px;
     margin-top: 1rem;
-    border: @border;
+    border: $border;
 
     h2 {
         text-align: center;
-        color: darkmagenta;
+        color: salmon;
     }
 }

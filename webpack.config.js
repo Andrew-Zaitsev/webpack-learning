@@ -5,19 +5,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlagin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const { LoaderOptionsPlugin } = require('webpack');
 
 const isDev = process.env.NODE_ENV === 'development';  // в режиме разработки или нет
 const isProd = !isDev;
 
-console.log(isDev);
-
 const optimization = () => {
     const config = {
-        splitChunks: {
-            chunks: 'all'
-        }
-       
-        
+        runtimeChunk: 'single',
+        //splitChunks: {
+        //    chunks: 'all'
+        //}
     };
 
     if (isProd) {
@@ -32,6 +30,16 @@ const optimization = () => {
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`;
 
+const cssLoaders = (addition) => {
+    const loaders = [
+        {loader: MiniCssExtractPlagin.loader}, 
+        'css-loader'
+    ]
+
+    if (addition) loaders.push(addition);
+
+    return loaders;
+}
 
 module.exports = {
     mode: 'development',
@@ -44,7 +52,6 @@ module.exports = {
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist'),
-        //publicPath: 'dist'
     },
     resolve: {
         // расширения для интерпретирования файлов, указанных без расширений в коде
@@ -55,9 +62,7 @@ module.exports = {
             '~': path.resolve(__dirname, 'node_modules')
         }
     },
-    optimization: {
-        runtimeChunk: 'single'
-    },//optimization(),
+    optimization: optimization(),
     devServer: {
         //contentBase: './dist',
         port: 4200,
@@ -91,19 +96,21 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.css$/,
-                use: [
-                    {loader: MiniCssExtractPlagin.loader}, 
-                    'css-loader'
-                ]
+                use: cssLoaders()
             },
             {
                 test: /\.less$/,
-                use: [
-                    {loader: MiniCssExtractPlagin.loader}, 
-                    'css-loader',
-                    'less-loader'
-                ]
+                use: cssLoaders('less-loader')
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: cssLoaders('sass-loader')
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/,
