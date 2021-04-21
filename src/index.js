@@ -1,4 +1,4 @@
-import * as $ from '~/jquery'; //тильда приводит к папке node-modules
+//import * as $ from '~/jquery'; //тильда приводит к папке node-modules
 import Post from './post.js';
 import './babel'
 import './styles/styles.css';

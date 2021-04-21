@@ -1,0 +1,20 @@
+{
+    // extends позволяет обогатить опции другими опциями из указанного файла
+    // файлом tsconfig-checks.json займёмся во второй части статьи
+    // в корне конфига находятся project-specific опции
+    "compilerOptions": {
+      // здесь все настройки, связанные с компилятором
+      "outDir": "./dist",
+      "target": "ES6",
+      "moduleResolution": "node",
+      "lib": [
+          "ES2018",
+          "DOM"
+      ],
+      "removeComments": false,
+      "experimentalDecorators": true,
+      //"strict": true   //почему то не работает с analitics
+    },
+    "include": ["./src"],
+    "exclude": ["./node_modules",]
+  }

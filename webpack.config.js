@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlagin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-const { LoaderOptionsPlugin } = require('webpack');
+const webpack = require('webpack');
 
 const isDev = process.env.NODE_ENV === 'development';  // в режиме разработки или нет
 const isProd = !isDev;
@@ -99,7 +99,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     entry: {
         main: './index.js',
-        analytics: './analytics.js'
+        analytics: './analytics.ts'
     },
     output: {
         filename: filename('js'),
@@ -137,6 +137,10 @@ module.exports = {
         }),
         new MiniCssExtractPlagin({
             filename: filename('css')
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
         })
         
     ],
